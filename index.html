@@ -3,59 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTFOLIO WEBSITE</title>
+    <title>Justine Pugosa | Portfolio Website</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav>
         <div class="nav-container">
             <div class="logo">PORTFOLIO</div>
             <ul class="nav-links">
-                <li><a href="#" class="active" onclick="showPage('home')">Home</a></li>
-                <li><a href="#" onclick="showPage('about')">About Me</a></li>
-                <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
-                <li><a href="#" onclick="showPage('moments')">Moments</a></li>
-                <li><a href="#" onclick="showPage('certifications')">Certifications</a></li>
-                <li><a href="#" onclick="showPage('journal')">Journal</a></li>
+                <li><a href="#" class="nav-item active" data-page="home" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" class="nav-item" data-page="about" onclick="showPage('about')">About Me</a></li>
+                <li><a href="#" class="nav-item" data-page="gallery" onclick="showPage('gallery')">Gallery</a></li>
+                <li><a href="#" class="nav-item" data-page="moments" onclick="showPage('moments')">Moments</a></li>
+                <li><a href="#" class="nav-item" data-page="certifications" onclick="showPage('certifications')">Certifications</a></li>
+                <li><a href="#" class="nav-item" data-page="journal" onclick="showPage('journal')">Journal</a></li>
             </ul>
+            <button class="edit-toggle" onclick="toggleSidebar()"><span>Edit Mode </span></button>
         </div>
     </nav>
 
-    <!-- Modal -->
     <div class="modal" id="imageModal" onclick="closeModal()">
         <span class="modal-close">&times;</span>
         <img id="modalImage" src="" alt="Enlarged view">
     </div>
 
-    <!-- Home Page -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebarOverlay()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Edit Content</h2>
+            <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <div class="edit-section">
+                <h3>Profile Information</h3>
+                <div class="form-group">
+                    <label for="aboutName">Name</label>
+                    <input type="text" id="aboutName" placeholder="Justine C. Pugosa">
+                </div>
+                <div class="form-group">
+                    <label for="aboutTitle">Title</label>
+                    <input type="text" id="aboutTitle" placeholder="BSIT Student">
+                </div>
+                <div class="form-group">
+                    <label for="aboutBio">Short Biography</label>
+                    <textarea id="aboutBio" placeholder="Tell something about yourself..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="aboutImage">Profile Image</label>
+                    <input type="file" id="aboutImage" accept="image/*" onchange="previewAboutImage(event)">
+                    <div id="aboutImagePreview" class="image-preview"></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="updateAbout()">Save Profile Changes</button>
+            </div>
+
+            <hr class="divider">
+
+            <div class="edit-section">
+                <h3>Add New Gallery Item</h3>
+                <div class="form-group">
+                    <label for="galleryTitle">Item Title</label>
+                    <input type="text" id="galleryTitle" placeholder="Enter title...">
+                </div>
+                <div class="form-group">
+                    <label for="galleryDescription">Description / Notes</label>
+                    <textarea id="galleryDescription" placeholder="Enter descriptions..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="galleryImage">Upload Image</label>
+                    <input type="file" id="galleryImage" accept="image/*" onchange="previewGalleryImage(event)">
+                    <div id="galleryImagePreview" class="image-preview"></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="addGalleryItem()">Add to Custom Gallery</button>
+            </div>
+
+            <hr class="divider">
+
+            <div class="edit-section">
+                <h3>Add Certification</h3>
+                <div class="form-group">
+                    <label for="certTitle">Certificate Name</label>
+                    <input type="text" id="certTitle" placeholder="e.g. TESDA Certificate">
+                </div>
+                <div class="form-group">
+                    <label for="certImage">Upload Document Image</label>
+                    <input type="file" id="certImage" accept="image/*" onchange="previewCertImage(event)">
+                    <div id="certImagePreview" class="image-preview"></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="addCertification()">Add Certificate</button>
+            </div>
+
+            <hr class="divider">
+
+            <div class="edit-section">
+                <h3>Add Journal Entry</h3>
+                <div class="form-group">
+                    <label for="journalTitle">Journal Destination</label>
+                    <input type="text" id="journalTitle" placeholder="Destination heading...">
+                </div>
+                <div class="form-group">
+                    <label for="journalContent">Personal Reflection</label>
+                    <textarea id="journalContent" placeholder="Write down your thoughts..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="journalImage">Journal Image</label>
+                    <input type="file" id="journalImage" accept="image/*" onchange="previewJournalImage(event)">
+                    <div id="journalImagePreview" class="image-preview"></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="addJournalEntry()">Post Journal Entry</button>
+            </div>
+        </div>
+    </div>
+
     <div id="home" class="page active">
         <section class="home-section">
             <div class="home-content">
                 <div class="profile-image">
-                    <img src="JAS HANDSOME.jpeg" alt="Justine" id="homeProfileImg">
+                    <img src="JAS HANDSOME.jpeg" alt="Justine Profile" id="homeProfileImg" loading="lazy">
                 </div>
                 <div class="home-text">
                     <h1>Hi, I'm <span>Jas!</span></h1>
-                    <h2>A 3RD YEAR BSIT Student from Holy Cross of Davao College</h2>
-                    <p>Welcome to my Website!</p>
-                    <p>Here is my Project for the Cebu-Bohol Educational Tour.</p>
+                    <h2>A 3rd Year BSIT Student from Holy Cross of Davao College</h2>
+                    <p>Welcome to my digital space! This web portfolio houses the projects, milestones, and architectural site insights acquired during our experiential Cebu-Bohol Educational Tour.</p>
                     
                     <div class="social-links">
-                        <a href="https://www.facebook.com/justine.chiew.pugosa" title="Facebook">F</a>
-                        <a href="https://www.instagram.com/jasu.doit/" title="Instagram">I</a>
+                        <a href="https://www.facebook.com/justine.chiew.pugosa" title="Facebook" target="_blank" rel="noopener">F</a>
+                        <a href="https://www.instagram.com/jasu.doit/" title="Instagram" target="_blank" rel="noopener">I</a>
                     </div>
                     
                     <div class="cta-buttons">
-                        <a href="#" class="btn btn-primary" onclick="showPage('gallery')">View Gallery</a>
-                        <a href="#" class="btn btn-secondary" onclick="showPage('journal')">View Journal</a>
+                        <a href="#" class="btn btn-primary" onclick="showPage('gallery')">Explore Gallery</a>
+                        <a href="#" class="btn btn-secondary" onclick="showPage('journal')">Read Journal Entries</a>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- About Page -->
     <div id="about" class="page">
         <section class="content-section">
             <div class="section-header">
@@ -64,21 +148,21 @@
 
             <div class="about-content">
                 <div class="about-image">
-                    <img id="aboutProfileImg" src="JAS HANDSOME.jpeg" alt="Profile" onclick="openModal(this.src)">
+                    <img id="aboutProfileImg" src="JAS HANDSOME.jpeg" alt="Profile View" onclick="openModal(this.src)" loading="lazy">
                 </div>
                 <div class="about-text">
                     <h2 id="aboutNameText">Justine C. Pugosa</h2>
                     <h3 id="aboutTitleText">BSIT Student</h3>
-                    <p id="aboutBioText">I'm a 3rd-year BSIT student from Holy Cross of Davao College, and I'm managing to pass college.</p>
-                    <p id="aboutBioText2">I've learned a lot about practical uses of technology and collaboration through a variety of projects and educational experiences, such as our unforgettable Cebu-Bohol Educational Tour.</p>
+                    <p id="aboutBioText">I'm a 3rd-year BSIT student studying at Holy Cross of Davao College. I am dedicated to honing my technical skillsets, learning practical systems deployments, and continually working hard to advance through my core computing curriculum.</p>
+                    <p id="aboutBioText2">Through practical academic tasks and immersive technical expositions like the Cebu-Bohol Educational Tour, I cultivate my capabilities in collaborative architecture, web systems development, and industry operations workflows.</p>
                     
                     <div class="skills-section">
-                        <h4>Skills & Interests</h4>
+                        <h4>Skills & Core Interests</h4>
                         <div class="skills-list">
                             <span class="skill-tag">Studying Web Development</span>
                             <span class="skill-tag">Practicing Programming</span>
-                            <span class="skill-tag">Collects Model Cars</span>
-                            <span class="skill-tag">Likes to workout</span>
+                            <span class="skill-tag">Model Car Collection</span>
+                            <span class="skill-tag">Fitness Training</span>
                         </div>
                     </div>
                 </div>
@@ -86,114 +170,143 @@
         </section>
     </div>
 
-    <!-- Gallery -->
-
     <div id="gallery" class="page">
-        <section class="content-section">
+        <section class="content-section" id="customGallerySection" style="display:none; padding-bottom: 0;">
             <div class="section-header">
-                <h1>UP BUSINESS INCUBATOR FOR IT</h1>
+                <h1>Your Added Memories</h1>
+                <p>Custom memories uploaded through active edit mode</p>
             </div>
-
-            <div class="gallery-grid" id="certificationsGrid">
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="UP6.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="UP3.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="UP1.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="UP4.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="UP5.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="UP2.jpeg" alt="Pictures">
-                </div>
-            </div>
+            <div class="gallery-grid" id="galleryGrid"></div>
         </section>
 
-
         <section class="content-section">
             <div class="section-header">
-                <h1>DYNATA PHILIPPINES INC.</h1>
+                <h1>UP Business Incubator for IT</h1>
+                <p class="section-subtitle">Explored enterprise incubation platforms, tech startup acceleration concepts, and regional technology ventures ecosystem development paradigms.</p>
             </div>
-
-            <div class="gallery-grid" id="certificationsGrid">
+            <div class="gallery-grid">
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="DY1.jpeg" alt="Pictures">
+                    <img src="UP6.jpeg" alt="UP It Incubator Session" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="DY2.jpeg" alt="Pictures">
+                    <img src="UP3.jpeg" alt="UP It Incubator Visual" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="DY3.jpeg" alt="Pictures">
+                    <img src="UP1.jpeg" alt="UP It Incubator Briefing" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="DY4.jpeg" alt="Pictures">
+                    <img src="UP4.jpeg" alt="UP It Incubator Presentation" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="DY5.jpeg" alt="Pictures">
+                    <img src="UP5.jpeg" alt="UP It Incubator Hub" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="DY6.jpeg" alt="Pictures">
+                    <img src="UP2.jpeg" alt="UP It Incubator Team" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
             </div>
         </section>
 
         <section class="content-section">
             <div class="section-header">
-                <h1>RIVAN IT CEBU</h1>
+                <h1>Dynata Philippines Inc.</h1>
+                <p class="section-subtitle">Observed large-scale corporate data processing arrays, global market research methodologies, and robust infrastructure systems security.</p>
             </div>
-
-            <div class="gallery-grid" id="certificationsGrid">
+            <div class="gallery-grid">
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="RI1.jpeg" alt="Pictures">
+                    <img src="DY1.jpeg" alt="Dynata Facility Site" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="RI3.jpeg" alt="Pictures">
+                    <img src="DY2.jpeg" alt="Dynata Corporate Floor" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="RI1.jpeg" alt="Pictures">
+                    <img src="DY3.jpeg" alt="Dynata Technical Assembly" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="RI4.jpeg" alt="Pictures">
+                    <img src="DY4.jpeg" alt="Dynata Infrastructure Briefing" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="RI5.jpeg" alt="Pictures">
+                    <img src="DY5.jpeg" alt="Dynata Representative Forum" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="RI6.jpeg" alt="Pictures">
+                    <img src="DY6.jpeg" alt="Dynata Informational Tour" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
             </div>
         </section>
 
         <section class="content-section">
             <div class="section-header">
-                <h1>MATA TECHNOLOGIES INC.</h1>
+                <h1>Rivan IT Cebu</h1>
+                <p class="section-subtitle">Interacted with physical enterprise Cisco networking appliances, advanced routing protocols, and multi-tenant server configurations.</p>
             </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                    <img src="RI1.jpeg" alt="Rivan Networking Lab" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
+                </div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                    <img src="RI3.jpeg" alt="Rivan Infrastructure Tour" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
+                </div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                    <img src="RI1.jpeg" alt="Rivan Enterprise Hardware" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
+                </div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                    <img src="RI4.jpeg" alt="Rivan Systems Tutorial" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
+                </div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                    <img src="RI5.jpeg" alt="Rivan Server Racks" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
+                </div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                    <img src="RI6.jpeg" alt="Rivan Training Group" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
+                </div>
+            </div>
+        </section>
 
-            <div class="gallery-grid" id="certificationsGrid">
+        <section class="content-section">
+            <div class="section-header">
+                <h1>Mata Technologies Inc.</h1>
+                <p class="section-subtitle">Examined localized geographic visualization mapping platforms, virtual real-estate simulation engines, and tailored customer delivery stacks.</p>
+            </div>
+            <div class="gallery-grid">
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MA2.jpeg" alt="Pictures">
+                    <img src="MA2.jpeg" alt="Mata Platform Demonstration" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MA3.jpeg" alt="Pictures">
+                    <img src="MA3.jpeg" alt="Mata Spatial Asset Map" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MA1.jpeg" alt="Pictures">
+                    <img src="MA1.jpeg" alt="Mata UI Presentation" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MA4.jpeg" alt="Pictures">
+                    <img src="MA4.jpeg" alt="Mata Virtualization Tools" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MA5.jpeg" alt="Pictures">
+                    <img src="MA5.jpeg" alt="Mata Team Dynamic" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MA6.jpeg" alt="Pictures">
+                    <img src="MA6.jpeg" alt="Mata Regional Tech Summary" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
             </div>
         </section>
@@ -201,165 +314,127 @@
         <section class="content-section">
             <div class="section-header">
                 <h1>T.A.R.S.I.E.R. 117</h1>
+                <p class="section-subtitle">Investigated emergency dispatch automation nodes, central communication operations grids, and resilience monitoring infrastructure in Bohol.</p>
             </div>
-
-            <div class="gallery-grid" id="certificationsGrid">
+            <div class="gallery-grid">
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="TA2.jpeg" alt="Pictures">
+                    <img src="TA2.jpeg" alt="Tarsier Disaster Command Node" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="TA3.jpeg" alt="Pictures">
+                    <img src="TA3.jpeg" alt="Tarsier Live Dispatch Ops" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="TA1.jpeg" alt="Pictures">
+                    <img src="TA1.jpeg" alt="Tarsier Systems Integration" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">Learn More</span></div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Moments Page -->
     <div id="moments" class="page">
         <section class="content-section">
             <div class="section-header">
                 <h1>Moments</h1>
-                <p>Special memories from the Cebu-Bohol Educational Tour</p>
+                <p class="section-subtitle">Unforgettable memories and peer bonding events during our travel journey across Cebu and Bohol.</p>
             </div>
 
-            <div class="gallery-grid" id="certificationsGrid">
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO1.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO2.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO3.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO4.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO5.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO6.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO7.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO8.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO9.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO10.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO11.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO12.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO13.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO14.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO15.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO16.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO17.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO18.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO19.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO20.jpeg" alt="Pictures">
-                </div>
-                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="MO21.jpeg" alt="Pictures">
-                </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO1.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO2.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO3.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO4.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO5.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO6.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO7.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO8.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO9.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO10.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO11.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO12.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO13.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO14.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO15.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO16.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO17.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO18.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO19.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO20.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
+                <div class="gallery-item" onclick="openModal(this.querySelector('img').src)"><img src="MO21.jpeg" alt="Moment Snapshot" loading="lazy"><div class="item-overlay"><span class="btn-cta">View Full Screen</span></div></div>
             </div>
         </section>        
     </div>
 
-    <!-- Certifications -->
     <div id="certifications" class="page">
         <section class="content-section">
             <div class="section-header">
                 <h1>Certifications</h1>
-                <p>Professional achievements and credentials</p>
+                <p class="section-subtitle">Verified professional credentials and specialized skills achievements.</p>
             </div>
 
             <div class="gallery-grid" id="certificationsGrid">
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="TESDA.jpeg" alt="Certificate">
+                    <img src="TESDA.jpeg" alt="TESDA IT Certificate" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">View Document</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="Freecodecamp.jpeg" alt="Certificate">
+                    <img src="Freecodecamp.jpeg" alt="FreeCodeCamp Certification" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">View Document</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="PDRRMO.jpeg" alt="Certificate">
+                    <img src="PDRRMO.jpeg" alt="PDRRMO Training Certificate" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">View Document</span></div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="WATT.jpeg" alt="Certificate">
+                    <img src="WATT.jpeg" alt="WATT Academic Certificate" loading="lazy">
+                    <div class="item-overlay"><span class="btn-cta">View Document</span></div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Journal -->
     <div id="journal" class="page">
         <section class="content-section">
             <div class="section-header">
                 <h1>My Journal</h1>
-                <p>Personal reflections and memories from the educational tour</p>
+                <p class="section-subtitle">Detailed field reflections, academic analyses, and takeaways from each technical stop.</p>
             </div>
 
             <div class="gallery-grid" id="journalGrid">
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="JO1.jpeg" alt="Journal">
+                    <img src="JO1.jpeg" alt="Journal Entry UP" loading="lazy">
                     <div class="gallery-item-content">
-                        <h3>UP BUSINESS INCUBATOR FOR IT</h3>
-                        <p>JOURNAL OF UP.</p>
+                        <h3>UP Business Incubator for IT</h3>
+                        <p>Documented actionable strategies concerning early-stage tech investments, enterprise value modeling, and collaborative project mapping architectures.</p>
                     </div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="JO2.jpeg" alt="Journal">
+                    <img src="JO2.jpeg" alt="Journal Entry Dynata" loading="lazy">
                     <div class="gallery-item-content">
-                        <h3>DYNATA PHILIPPINES INC.</h3>
-                        <p>JOURNAL OF DYNATA.</p>
+                        <h3>Dynata Philippines Inc.</h3>
+                        <p>Studied real-world systems throughput optimizations, active backend server configuration strategies, and automated scaling architectures.</p>
                     </div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="JO3.jpeg" alt="Journal">
+                    <img src="JO3.jpeg" alt="Journal Entry Rivan" loading="lazy">
                     <div class="gallery-item-content">
-                        <h3>RIVAN IT CEBU</h3>
-                        <p>JOURNAL OF RIVAN.</p>
+                        <h3>Rivan IT Cebu</h3>
+                        <p>Reflected upon industrial local routing schemas, manual hardware link aggregation methods, and deep network configuration patterns.</p>
                     </div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="JO4.jpeg" alt="Journal">
+                    <img src="JO4.jpeg" alt="Journal Entry Mata" loading="lazy">
                     <div class="gallery-item-content">
-                        <h3>MATA TECHNOLOGIES INC.</h3>
-                        <p>JOURNAL OF MATA.</p>
+                        <h3>Mata Technologies Inc.</h3>
+                        <p>Explored web deployment workflows designed for handling localized web mapping assets, complex viewport scales, and rapid render processes.</p>
                     </div>
                 </div>
                 <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
-                    <img src="JO5.jpeg" alt="Journal">
+                    <img src="JO5.jpeg" alt="Journal Entry Tarsier" loading="lazy">
                     <div class="gallery-item-content">
                         <h3>T.A.R.S.I.E.R. 117</h3>
-                        <p>JOURNAL OF TARSIER.</p>
+                        <p>Analyzed mission-critical fault-tolerant communication loops, infrastructure layout configurations, and rapid-response failover patterns.</p>
                     </div>
                 </div>
             </div>
